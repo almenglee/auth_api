@@ -20,6 +20,7 @@ func _authRequest(c echo.Context, reqAdmin bool) bool {
 // 	return user lists
 //	[GET] api/users
 func indexUser(c echo.Context) error {
+	println("user index request")
 	if _authRequest(c, true) {
 		return UnauthorizedRequest(c)
 	}
