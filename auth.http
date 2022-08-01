@@ -1,5 +1,5 @@
 //Indexing Users
-GET http://localhost:1323/users
+GET http://api.almeng.kr/users
 Accept: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
@@ -48,7 +48,7 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQ
 
 
 ###
-POST http://localhost:1323/auth/login
+POST http://api.almeng.kr/auth/login
 Content-Type: application/json
 
 {

@@ -74,5 +74,5 @@ func main() {
 	//	// update password using old one
 	//	[PATCH] api/users/password => require(header: {x-access-token}, body: {old, new}), response(code:204)
 	e.PATCH("/users/password", foo)
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
 }
