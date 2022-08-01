@@ -1,0 +1,15 @@
+{
+  "user" : {
+    "email": "almeng@almeng.kr",
+    "password": "password",
+    "id": "0102833128283",
+    "class": "admin"
+  },
+  "claim": {
+    "id": "",
+    "class": "",
+    "iss":"",
+    "iat": "",
+    "exp":""
+  }
+}
