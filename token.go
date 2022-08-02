@@ -57,12 +57,9 @@ func parseClaim(claim TokenClaim, stdClaim jwt.StandardClaims) string {
 	signedAuthToken, err := atoken.SignedString([]byte(PrivateKey))
 
 	if err != nil {
-		print("error occurred during signing token: ")
-		println(err)
+		Log("Error: Signing Token", err.Error())
 	}
-	println(signedAuthToken)
-	_, is := verifyToken(signedAuthToken)
-	println("Is token Valid: ", is)
+	Log("Signed Token: " + signedAuthToken)
 	return signedAuthToken
 }
 

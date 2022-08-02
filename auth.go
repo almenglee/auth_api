@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"net/http"
@@ -40,7 +39,7 @@ func login(c echo.Context) error {
 		return RequestFailed(c, service, http.StatusBadRequest, "Invalid Login Request", response)
 	}
 
-	fmt.Println(request.Email, "\n", request.Password)
+	LogContext(c, service+":", "Request", request.Email, request.Password)
 	filter := bson.D{{"email", request.Email}}
 	user, err := DBFindUserOne(filter)
 

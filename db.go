@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/almenglee/general"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -24,7 +23,7 @@ func ConnectDB() (client *mongo.Client, ctx context.Context, cancel context.Canc
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
-		fmt.Println(err)
+		Log("Error: ConnectDB:", err.Error())
 	}
 
 	return client, ctx, cancel
@@ -43,11 +42,11 @@ func DBFindUsers(filter interface{}) (*general.List[User], error) {
 
 	cursor, err := usersCollection.Find(ctx, filter)
 	if err != nil {
-		print(err.Error())
+		Log("Error: DBFindUsers", err.Error())
 		return general.EmptyList[User](), err
 	}
 	if err = cursor.All(ctx, &Users); err != nil {
-		print(err.Error())
+		Log("Error: DBFindUsers", err.Error())
 		return general.EmptyList[User](), err
 	}
 	return general.AsList(Users), nil
@@ -67,7 +66,7 @@ func DBFindUserOne(filter interface{}) (*User, error) {
 
 	num, err := usersCollection.CountDocuments(ctx, filter)
 	if err != nil {
-		print(err.Error())
+		Log("Error: DBFindUserOne", err.Error())
 		return nil, err
 	}
 
@@ -77,6 +76,7 @@ func DBFindUserOne(filter interface{}) (*User, error) {
 	user := new(User)
 	err = usersCollection.FindOne(ctx, filter).Decode(&user)
 	if err != nil {
+		Log("Error: DBFindUserOne", err.Error())
 		return nil, err
 	}
 
@@ -100,6 +100,7 @@ func DBCreateUser(user User) (*User, error) {
 
 	num, err := col.CountDocuments(ctx, filter)
 	if err != nil {
+		Log("Error: DBCreateUser", err.Error())
 		return nil, err
 	}
 
@@ -135,6 +136,7 @@ func DBDeleteUser(username string) error {
 
 	num, err := col.CountDocuments(ctx, filter)
 	if err != nil {
+		Log("Error: DBDeleteUsers", err.Error())
 		return err
 	}
 
