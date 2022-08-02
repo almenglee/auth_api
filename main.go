@@ -27,12 +27,12 @@ func init() {
 	if err != nil {
 		fatal(err)
 	}
-	logger = NewLogger(f, "AUTH")
+	logger = NewLogger(f, "AUTH: ")
 	Log("Initiation Complete")
 }
 
 func main() {
-
+	defer logger.f.Close()
 	tok := User{
 		Class:    "admin",
 		ID:       "62e76e88c6100e00e162def9",
