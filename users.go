@@ -20,6 +20,7 @@ func _authRequest(c echo.Context, reqAdmin bool) bool {
 // 	return user lists
 //	[GET] api/users
 func indexUser(c echo.Context) error {
+	defer println()
 	println("user index request")
 	if _authRequest(c, true) {
 		return UnauthorizedRequest(c)
@@ -41,10 +42,13 @@ func indexUser(c echo.Context) error {
 // 	get user of {username}
 //	[GET] api/users/{username}
 func getUser(c echo.Context) error {
+	defer println()
+
 	if !_authRequest(c, false) {
 		return UnauthorizedRequest(c)
 	}
 	name := c.Param("username")
+	println("request for getting user: " + name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -67,6 +71,8 @@ func getUser(c echo.Context) error {
 //	No header required
 //	[POST] api/users => require(body: { username, password, email })
 func createUser(c echo.Context) error {
+	defer println()
+	println("user creation request")
 	request := new(UserRequest)
 	err := c.Bind(request)
 	res := new(Response)
@@ -103,11 +109,13 @@ func createUser(c echo.Context) error {
 //	update user
 //	[PUT] api/users/{username} => require(body: user)
 func updateUser(c echo.Context) error {
+	defer println()
 	if !_authRequest(c, false) {
 		return UnauthorizedRequest(c)
 	}
 	request := new(UserRequest)
 	name := c.Param("username")
+	println("request for updating user: " + name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -132,10 +140,12 @@ func updateUser(c echo.Context) error {
 //	delete user
 //	[DELETE] api/users/{username}
 func deleteUser(c echo.Context) error {
+	defer println()
 	if !_authRequest(c, false) {
 		return UnauthorizedRequest(c)
 	}
 	name := c.Param("username")
+	println("request for deleting user: " + name)
 	res := new(Response)
 	res.Success = false
 	token := c.Request().Header.Get(TokenHeader)

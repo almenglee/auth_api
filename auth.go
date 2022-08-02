@@ -72,6 +72,8 @@ func login(c echo.Context) error {
 // used by other api gateways
 //	[GET] api/auth/me => require(header: { x-access-token})
 func auth(c echo.Context) error {
+	defer println()
+	println("auth request")
 	token := c.Request().Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
 	if !ok {
@@ -86,6 +88,8 @@ func auth(c echo.Context) error {
 // return new token using existing token
 //	[GET] api/auth/refresh => require(header: { x-access-token })
 func refresh(c echo.Context) error {
+	defer println()
+	println("refresh request")
 	request := c.Request()
 	token := request.Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
