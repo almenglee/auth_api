@@ -23,7 +23,7 @@ func foo(c echo.Context) error {
 }
 
 func init() {
-	f, err := os.OpenFile("logfile.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	f, err := os.OpenFile("log/log.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		fatal(err)
 	}
