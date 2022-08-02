@@ -106,7 +106,6 @@ type Writer struct {
 }
 
 func (w *Writer) Write(p []byte) (int, error) {
-	print("hi")
 	n, err := os.Stdout.Write(p)
 	if err != nil {
 		return n, err
