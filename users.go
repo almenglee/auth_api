@@ -22,7 +22,7 @@ func _authRequest(c echo.Context, reqAdmin bool) bool {
 func indexUser(c echo.Context) error {
 	service := "Index User"
 	defer println()
-	LogContext(c, "user index request")
+	LogContext(c, service+":")
 	if _authRequest(c, true) {
 		return UnauthorizedRequest(c, service)
 	}
@@ -55,7 +55,7 @@ func getUser(c echo.Context) error {
 		return UnauthorizedRequest(c, service)
 	}
 	name := c.Param("username")
-	LogContext(c, "request for getting user: "+name)
+	LogContext(c, service+": "+name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -80,7 +80,7 @@ func getUser(c echo.Context) error {
 func createUser(c echo.Context) error {
 	service := "Create User"
 	defer println()
-	println("user creation request")
+	LogContext(c, service+":")
 	request := new(UserRequest)
 	err := c.Bind(request)
 	response := new(Response)
@@ -121,7 +121,7 @@ func updateUser(c echo.Context) error {
 	}
 	request := new(UserRequest)
 	name := c.Param("username")
-	LogContext(c, "request for updating user: "+name)
+	LogContext(c, service+": "+name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -151,7 +151,7 @@ func deleteUser(c echo.Context) error {
 		return UnauthorizedRequest(c, service)
 	}
 	name := c.Param("username")
-	LogContext(c, "request for deleting user: "+name)
+	LogContext(c, service+": "+name)
 	res := new(Response)
 	res.Success = false
 	token := c.Request().Header.Get(TokenHeader)

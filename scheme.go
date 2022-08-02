@@ -88,7 +88,7 @@ func Log(v ...any) {
 }
 
 func LogContext(c echo.Context, v ...any) {
-	v = append(v, " FROM: "+c.RealIP())
+	v = append(v, "FROM: "+c.RealIP())
 	logger.logg.Println(v...)
 }
 
