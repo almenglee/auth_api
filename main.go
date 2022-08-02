@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const Host = "auth.almeng.kr"
+const Host = "api.almeng.kr"
 
 const Day = time.Hour * 24
 const Week = Day * 7

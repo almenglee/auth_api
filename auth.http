@@ -5,33 +5,33 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQ
 
 ###
 //Auth with token
-GET http://localhost:1323/auth
+GET http://api.almeng.kr/auth
 Accept: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
 ###
 //refresh with token
-GET http://localhost:1323/auth/refresh
+GET http://api.almeng.kr/auth/refresh
 Accept: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
 ###
 //Auth with token
-GET http://localhost:1323/users/almeng@almeng.kr
+GET http://api.almeng.kr/users/almeng@almeng.kr
 Accept: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
 ###
-POST http://localhost:1323/users
+POST http://api.almeng.kr/users
 Content-Type: application/json
 
 {
-  "email": "admin@almeng.kr",
+  "email": "adaaaaaamin@almeng.kr",
   "password": "ab32652fbb482c5800715de78cce98cef10dd719a21236a5ae5fd53b6aee0257"
 }
 
 ###
-PUT http://localhost:1323/users/admin@almeng.kr
+PUT http://api.almeng.kr/users/admin@almeng.kr
 Content-Type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
@@ -41,7 +41,7 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQ
 }
 
 ###
-DELETE http://localhost:1323/users/admi
+DELETE http://api.almeng.kr/users/almeng1234556@gmail.com
 Content-Type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiI2MmU3NmU4OGM2MTAwZTAwZTE2MmRlZjkiLCJjbGFzcyI6ImFkbWluIiwiZXhwIjoxNjU5OTM5NjYyLCJpYXQiOjE2NTkzMzQ4NjIsImlzcyI6ImF1dGguYWxtZW5nLmtyIn0.FArYu8LFB6fUt5RcCQFQYN1z4TOCiXB6ZscMOAyb3UA
 
