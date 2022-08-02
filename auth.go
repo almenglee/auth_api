@@ -29,7 +29,7 @@ func handleDBError(c echo.Context, err error) error {
 //	[POST] api/auth/login => require(body:{ username | email , password})
 func login(c echo.Context) error {
 	defer println()
-	println("login request")
+	LogContext(c, "Login request")
 	request := new(UserRequest)
 	err := c.Bind(request)
 	response := new(Response)
@@ -73,7 +73,7 @@ func login(c echo.Context) error {
 //	[GET] api/auth/me => require(header: { x-access-token})
 func auth(c echo.Context) error {
 	defer println()
-	println("auth request")
+	LogContext(c, "auth request")
 	token := c.Request().Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
 	if !ok {
@@ -89,7 +89,7 @@ func auth(c echo.Context) error {
 //	[GET] api/auth/refresh => require(header: { x-access-token })
 func refresh(c echo.Context) error {
 	defer println()
-	println("refresh request")
+	LogContext(c, "refresh request")
 	request := c.Request()
 	token := request.Header.Get("x-access-token")
 	claim, ok := verifyToken(token)

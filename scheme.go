@@ -3,8 +3,11 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
+	"io"
+	"log"
 	"net/http"
 	"net/mail"
+	"os"
 	"reflect"
 	"regexp"
 )
@@ -75,6 +78,50 @@ func (u *User) ToBson() (data bson.M) {
 	return
 }
 
+type Logger struct {
+	logg *log.Logger
+}
+
+func Log(v ...any) {
+	logger.logg.Println(v...)
+}
+
+func LogContext(c echo.Context, v ...any) {
+	v = append(v, " FROM: "+c.RealIP())
+	logger.logg.Println(v...)
+}
+
+func NewLogger(f *os.File, prefix string) *Logger {
+	l := log.New(NewWriter(f), prefix, log.LstdFlags)
+	return &Logger{l}
+}
+
+func NewWriter(f *os.File) *Writer {
+	return &Writer{f}
+}
+
+type Writer struct {
+	f *os.File
+}
+
+func (w *Writer) Write(p []byte) (int, error) {
+	n, err := os.Stdout.Write(p)
+	if err != nil {
+		return n, err
+	}
+	if n != len(p) {
+		return n, io.ErrShortWrite
+	}
+	n, err = w.f.Write(p)
+	if err != nil {
+		return n, err
+	}
+	if n != len(p) {
+		return n, io.ErrShortWrite
+	}
+	return len(p), nil
+}
+
 func isValidEmail(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil
@@ -91,10 +138,6 @@ func (u User) Claim() (claim *TokenClaim) {
 	claim.ID = u.ID
 	claim.Email = u.Email
 	return
-}
-
-func errCheck(err error) {
-	print(err.Error())
 }
 
 func fatal(err error) {

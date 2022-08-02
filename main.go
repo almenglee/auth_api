@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	"os"
 	"time"
 
 	"net/http"
@@ -14,9 +15,20 @@ const Week = Day * 7
 const Month = Week * 30
 const Year = 31556952 * time.Second
 
+var logger *Logger
+
 //const API-GATEWAY = "api/"
 func foo(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Hello, World!")
+}
+
+func init() {
+	f, err := os.Open("./log/log.txt")
+	if err != nil {
+		fatal(err)
+	}
+	logger = NewLogger(f, "AUTH")
+	Log("Initiation Complete")
 }
 
 func main() {
@@ -75,4 +87,5 @@ func main() {
 	//	[PATCH] api/users/password => require(header: {x-access-token}, body: {old, new}), response(code:204)
 	e.PATCH("/users/password", foo)
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
+	Log("Service Started")
 }

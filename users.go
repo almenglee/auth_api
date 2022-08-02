@@ -21,7 +21,7 @@ func _authRequest(c echo.Context, reqAdmin bool) bool {
 //	[GET] api/users
 func indexUser(c echo.Context) error {
 	defer println()
-	println("user index request")
+	LogContext(c, "user index request")
 	if _authRequest(c, true) {
 		return UnauthorizedRequest(c)
 	}
@@ -48,7 +48,7 @@ func getUser(c echo.Context) error {
 		return UnauthorizedRequest(c)
 	}
 	name := c.Param("username")
-	println("request for getting user: " + name)
+	LogContext(c, "request for getting user: "+name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -115,7 +115,7 @@ func updateUser(c echo.Context) error {
 	}
 	request := new(UserRequest)
 	name := c.Param("username")
-	println("request for updating user: " + name)
+	Log(c, "request for updating user: "+name)
 	token := c.Request().Header.Get(TokenHeader)
 	claim, _ := verifyToken(token)
 	if claim.Class != ClassAdmin && claim.Email != name {
@@ -145,7 +145,7 @@ func deleteUser(c echo.Context) error {
 		return UnauthorizedRequest(c)
 	}
 	name := c.Param("username")
-	println("request for deleting user: " + name)
+	LogContext(c, "request for deleting user: "+name)
 	res := new(Response)
 	res.Success = false
 	token := c.Request().Header.Get(TokenHeader)
