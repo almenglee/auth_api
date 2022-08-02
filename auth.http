@@ -12,7 +12,7 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQ
 ###
 //refresh with token
 GET http://api.almeng.kr/auth/refresh
-Accept: application/json
+Accept: application/json:q
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOiJhZG1pbiIsImNsYXNzIjoiYWRtaW4iLCJleHAiOjE2NTk5Mzc4NTcsImlhdCI6MTY1OTMzMzA1NywiaXNzIjoiYXV0aC5hbG1lbmcua3IifQ.eALM2CEo7KeUbm9Clky_S7pI4nV0EnEkf5ChNk7YnNY
 
 ###

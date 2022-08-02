@@ -7,38 +7,37 @@ import (
 	"net/http"
 )
 
-func handleDBError(c echo.Context, err error) error {
+func handleDBError(c echo.Context, service string, err error) error {
 	var status int
 	response := Response{Success: false}
+	var e string
 	switch err {
 	case UserNotExistError:
-		response.Error = UserNotExistError.Error()
+		e = UserNotExistError.Error()
 		status = http.StatusNotFound
+
 	case UserAlreadyExistError:
-		response.Error = UserAlreadyExistError.Error()
+		e = UserAlreadyExistError.Error()
 		status = http.StatusConflict
 	default:
-		print(err.Error())
-		response.Error = "Error occurred during indexing: " + err.Error()
+		e = "Error occurred during indexing: " + err.Error()
 		status = http.StatusServiceUnavailable
 	}
-	return c.JSON(status, response)
+	return RequestFailed(c, service, status, e, &response)
 }
 
 // returns token
 //	[POST] api/auth/login => require(body:{ username | email , password})
 func login(c echo.Context) error {
+	service := "login"
 	defer println()
 	LogContext(c, "Login request")
 	request := new(UserRequest)
 	err := c.Bind(request)
 	response := new(Response)
 	response.Success = false
-
 	if err != nil {
-		print(err)
-		response.Error = "Invalid Login Request"
-		return c.JSON(http.StatusBadRequest, response)
+		return RequestFailed(c, service, http.StatusBadRequest, "Invalid Login Request", response)
 	}
 
 	fmt.Println(request.Email, "\n", request.Password)
@@ -46,17 +45,15 @@ func login(c echo.Context) error {
 	user, err := DBFindUserOne(filter)
 
 	if err != nil {
-		return handleDBError(c, err)
+		return handleDBError(c, service, err)
 	}
 
 	if !checkPasswordFormat(request.Password) {
-		response.Error = "Invalid Password format"
-		return c.JSON(http.StatusBadRequest, response)
+		return RequestFailed(c, service, http.StatusBadRequest, "Invalid Password format", response)
 	}
 
 	if user.Password != request.Password {
-		response.Error = "Password Incorrect"
-		return c.JSON(http.StatusUnauthorized, response)
+		return RequestFailed(c, service, http.StatusUnauthorized, "Password Incorrect", response)
 	}
 	AccessToken := user.Claim().signAccessToken()
 	RefreshToken := user.Claim().signRefreshToken()
@@ -72,12 +69,13 @@ func login(c echo.Context) error {
 // used by other api gateways
 //	[GET] api/auth/me => require(header: { x-access-token})
 func auth(c echo.Context) error {
+	service := "Auth"
 	defer println()
 	LogContext(c, "auth request")
 	token := c.Request().Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
 	if !ok {
-		return UnauthorizedRequest(c)
+		return UnauthorizedRequest(c, service)
 	}
 	response := new(Response)
 	response.Success = true
@@ -88,13 +86,14 @@ func auth(c echo.Context) error {
 // return new token using existing token
 //	[GET] api/auth/refresh => require(header: { x-access-token })
 func refresh(c echo.Context) error {
+	service := "Refresh"
 	defer println()
 	LogContext(c, "refresh request")
 	request := c.Request()
 	token := request.Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
 	if !ok {
-		return UnauthorizedRequest(c)
+		return UnauthorizedRequest(c, service)
 	}
 
 	tok := claim.signAccessToken()

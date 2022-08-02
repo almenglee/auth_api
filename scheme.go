@@ -145,9 +145,8 @@ func fatal(err error) {
 	panic(err.Error())
 }
 
-func UnauthorizedRequest(c echo.Context) error {
+func UnauthorizedRequest(c echo.Context, service string) error {
 	response := new(Response)
 	response.Success = false
-	response.Error = "Unauthorized UserRequest"
-	return c.JSON(http.StatusUnauthorized, response)
+	return RequestFailed(c, service, http.StatusUnauthorized, "Unauthorized UserRequest", response)
 }
