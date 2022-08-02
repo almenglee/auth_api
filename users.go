@@ -22,7 +22,7 @@ func _authRequest(c echo.Context, reqAdmin bool) bool {
 func indexUser(c echo.Context) error {
 	service := "Index User"
 	defer println()
-	LogContext(c, service+":")
+	LogContext(c, service)
 	if _authRequest(c, true) {
 		return UnauthorizedRequest(c, service)
 	}
@@ -80,7 +80,7 @@ func getUser(c echo.Context) error {
 func createUser(c echo.Context) error {
 	service := "Create User"
 	defer println()
-	LogContext(c, service+":")
+	LogContext(c, service)
 	request := new(UserRequest)
 	err := c.Bind(request)
 	response := new(Response)

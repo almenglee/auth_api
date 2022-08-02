@@ -31,7 +31,7 @@ func handleDBError(c echo.Context, service string, err error) error {
 func login(c echo.Context) error {
 	service := "Login"
 	defer println()
-	LogContext(c, service+":")
+	LogContext(c, service)
 	request := new(UserRequest)
 	err := c.Bind(request)
 	response := new(Response)
@@ -71,7 +71,7 @@ func login(c echo.Context) error {
 func auth(c echo.Context) error {
 	service := "Auth"
 	defer println()
-	LogContext(c, service+":")
+	LogContext(c, service)
 	token := c.Request().Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
 	if !ok {
@@ -88,7 +88,7 @@ func auth(c echo.Context) error {
 func refresh(c echo.Context) error {
 	service := "Refresh"
 	defer println()
-	LogContext(c, service+":")
+	LogContext(c, service)
 	request := c.Request()
 	token := request.Header.Get("x-access-token")
 	claim, ok := verifyToken(token)
