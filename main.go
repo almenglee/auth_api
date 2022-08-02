@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"os"
-	"strings"
 	"time"
 
 	"net/http"
@@ -26,8 +25,9 @@ func foo(c echo.Context) error {
 }
 
 func init() {
-	name := "Log_Auth_" + time.Now().Format("23_02_2022") + ".log"
-	name = strings.Replace(name, " ", "_", -1)
+	now := time.Now()
+	name := "Log_Auth_" + fmt.Sprint(now.Day(), "_", int64(now.Month()), "_", now.Year()) + ".log"
+	print(name)
 	logFile = "log/" + name
 	f, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -39,8 +39,9 @@ func init() {
 
 func main() {
 	defer func() {
+		Log("Service Exited")
+		Log("Saved Log File :" + logFile)
 		_ = logger.f.Close()
-		fmt.Println("Saved Log File :" + logFile)
 	}()
 	tok := User{
 		Class:    "admin",
