@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"os"
+	"strings"
 	"time"
 
 	"net/http"
@@ -16,6 +18,7 @@ const Month = Week * 30
 const Year = 31556952 * time.Second
 
 var logger *Logger
+var logFile string
 
 //const API-GATEWAY = "api/"
 func foo(c echo.Context) error {
@@ -23,16 +26,22 @@ func foo(c echo.Context) error {
 }
 
 func init() {
-	f, err := os.OpenFile("log/log.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	name := "Log_Auth_" + time.Now().Format("23_02_2022") + ".log"
+	name = strings.Replace(name, " ", "_", -1)
+	logFile = "log/" + name
+	f, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		fatal(err)
 	}
-	logger = NewLogger(f, "AUTH: ")
+	logger = NewLogger(f, "")
 	Log("Initiation Complete")
 }
 
 func main() {
-	defer logger.f.Close()
+	defer func() {
+		_ = logger.f.Close()
+		fmt.Println("Saved Log File :" + logFile)
+	}()
 	tok := User{
 		Class:    "admin",
 		ID:       "62e76e88c6100e00e162def9",
