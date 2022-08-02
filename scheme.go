@@ -80,6 +80,7 @@ func (u *User) ToBson() (data bson.M) {
 
 type Logger struct {
 	logg *log.Logger
+	f    *os.File
 }
 
 func Log(v ...any) {
@@ -93,7 +94,7 @@ func LogContext(c echo.Context, v ...any) {
 
 func NewLogger(f *os.File, prefix string) *Logger {
 	l := log.New(NewWriter(f), prefix, log.LstdFlags)
-	return &Logger{l}
+	return &Logger{l, f}
 }
 
 func NewWriter(f *os.File) *Writer {
